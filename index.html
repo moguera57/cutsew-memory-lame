@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CUT/SEW's Anime Web Shrine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/styles.css" />
+    <script src="assets/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="audio-controls">
+        <h3>Our favorite new anime~ ^.^</h3>
+        <audio controls autoplay>
+            <source src="assets/cat.mp3" type="audio/mpeg">
+            Your browser does not support the audio tag.
+        </audio>
+    </div>
+
+    <div class="centered">
+        <img src="assets/enter.png">
+    <a href="collection.html"><img src="assets/welcome.gif"></a>
+        Best viewed in 800 x 600. All animes belong to their respective owners but the graphics were made by your friendly otaku webmasters at cutsew~~ >.> DO NOT STEAL!!!!
+        <h3 id="visit-counter"></h3>
+    </div>
+</body>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDjQdrcF_KJlEOGlzFsvHltqWhVqNBh9Oo",
+    authDomain: "cutsew-web-shrine.firebaseapp.com",
+    databaseURL: "https://cutsew-web-shrine.firebaseio.com",
+    projectId: "cutsew-web-shrine",
+    storageBucket: "cutsew-web-shrine.appspot.com",
+    messagingSenderId: "910756715230"
+  };
+  firebase.initializeApp(config);
+
+    var database = firebase.database();
+    var counter =  0
+    var oneHit = false
+    database.ref().on("value", function(snapshot) {
+        if(oneHit == false){
+            oneHit=true
+            counter = snapshot.val().count
+            counter++
+            $('#visit-counter').text(`We've had ${counter} visitors!`)
+            database.ref().set({
+                count: counter
+            });
+        }
+        }, function(errorObject) {
+            console.log("The read failed: " + errorObject.code);
+    });
+
+</script>
+</html>
